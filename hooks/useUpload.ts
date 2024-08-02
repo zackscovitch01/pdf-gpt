@@ -1,5 +1,6 @@
 "use client";
 
+import { generateEmbeddings } from "@/actions/generateEmbeddings";
 import { db, storage } from "@/firebase";
 import { useUser } from "@clerk/nextjs";
 import { create } from "domain";
@@ -32,7 +33,10 @@ function useUpload() {
 
     const fileIdToUploadTo = uuidv4(); // Generate a unique ID for the file
 
-    const storageRef = ref(storage, `users/${user.id}/${fileIdToUploadTo}`);
+    const storageRef = ref(
+      storage,
+      `users/${user.id}/files/${fileIdToUploadTo}`
+    );
 
     const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -50,18 +54,19 @@ function useUpload() {
       },
       async () => {
         setStatus(StatusText.UPLOADED);
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
         setStatus(StatusText.SAVING);
         await setDoc(doc(db, "users", user.id, "files", fileIdToUploadTo), {
           name: file.name,
           size: file.size,
           type: file.type,
-          downloadURL: downloadURL,
+          downloadUrl: downloadUrl,
           ref: uploadTask.snapshot.ref.fullPath,
           createdAt: new Date(),
         });
         setStatus(StatusText.GENERATING);
         //Generate AI embedding...
+        await generateEmbeddings(fileIdToUploadTo);
 
         setFileId(fileIdToUploadTo);
       }
