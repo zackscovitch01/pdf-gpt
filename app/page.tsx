@@ -19,12 +19,11 @@ export default function Home() {
               Introducing{" "}
               <span className="font-bold text-pink-600">pdf-GPT.</span>
               <br />
-              <br /> Upload your document and let{" "}
-              <span className="font-bold text-pink-600">pdf-GPT</span> do the
-              rest. It can answer questions, summarize content making it the
-              ideal learning companion.{" "}
-              <span className="font-bold text-pink-600">pdf-GPT</span> turns
-              static documents into{" "}
+              <br /> Upload your document and let our chatbot do the rest. It
+              can answer questions, summarize content making it the ideal
+              learning companion.{" "}
+              <span className=" text-pink-600">pdf-GPT</span> turns static
+              documents into{" "}
               <span className="font-bold">interactive experiences</span>{" "}
               enhancing the way you learn.
             </p>
