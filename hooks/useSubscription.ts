@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 
 //num of docs
-const PRO_LIMIT = 20;
-const FREE_LIMIT = 2;
+const PRO_LIMIT = 100;
+const FREE_LIMIT = 10;
 function useSubscription() {
   const [hasActiveMembership, setHasActiveMembership] = useState(null);
   const [isOverFileLimit, setIsOverFileLimit] = useState(false);
@@ -32,7 +32,7 @@ function useSubscription() {
     const data = snapshot.data();
 
     if (!data) return;
-    setHasActiveMembership(data.activeMembership);
+    setHasActiveMembership(data.hasActiveMembership);
   }, [snapshot]);
 
   useEffect(() => {

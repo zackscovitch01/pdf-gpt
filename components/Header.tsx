@@ -2,13 +2,14 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { FilePlus2 } from "lucide-react";
+import UpgradeButton from "./UpgradeButton";
 
 function Header() {
   return (
-    <div className="flex justify-between bg-white shadow-sm p-4 border-b">
+    <div className="flex items-center justify-between bg-white shadow-sm p-4 border-b">
       <Link
         href="/dashboard"
-        className="text-pink-600 text-2xl tracking-[3px] font-extrabold"
+        className="text-pink-600 text-xl tracking-[3px] font-extrabold"
       >
         pdf-GPT
       </Link>
@@ -26,6 +27,7 @@ function Header() {
             </Link>
           </Button>
           {/* Upgrade button */}
+          <UpgradeButton />
           <UserButton />
         </div>
       </SignedIn>

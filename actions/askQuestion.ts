@@ -6,8 +6,8 @@ import { generateLangchainCompletion } from "@/lib/langchain";
 import { auth } from "@clerk/nextjs/server";
 // import {generateLangchainCompletion} from '@/lib/langchain'
 
-const FREE_LIMIT = 10;
 const PRO_LIMIT = 100;
+const FREE_LIMIT = 10;
 
 export async function askQuestion(id: string, question: string) {
   auth().protect();
@@ -26,7 +26,27 @@ export async function askQuestion(id: string, question: string) {
     (doc) => doc.data().role === "human"
   );
 
-  // limit pro or free users
+  // check membership limit for nessages in a document
+  const userRef = await adminDb.collection("users").doc(userId!).get();
+
+  // check if user is on FREE plan and asked more than 10 questions
+  if (!userRef.data()?.hasActiveMembership) {
+    if (userMessages.length >= FREE_LIMIT) {
+      return {
+        message: `You'll need to upgrade to ask more than ${FREE_LIMIT} questions! 😢`,
+        success: false,
+      };
+    }
+  }
+  // check if user is on PRO plan and asked more than 100 questions
+  if (!userRef.data()?.hasActiveMembership) {
+    if (userMessages.length >= PRO_LIMIT) {
+      return {
+        message: `You have reached the PRO limit of ${PRO_LIMIT} questionsper document! 😢`,
+        success: false,
+      };
+    }
+  }
 
   const userMessage: Message = {
     role: "human",
