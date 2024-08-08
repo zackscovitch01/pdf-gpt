@@ -20,10 +20,10 @@ export async function deleteDocument(docId: string) {
     .delete();
 
   // Delete from firebase bucket
-  await adminStorage
-    .bucket(process.env.FIREBASE_STORAGE_BUCKET)
-    .file(`users/${userId}/files/${docId}`)
-    .delete();
+  //   await adminStorage
+  //     .bucket(process.env.FIREBASE_STORAGE_BUCKET)
+  //     .file(`users/${userId}/files/${docId}`)
+  //     .delete();
 
   // Delete all embeddings associatyed with the document
   const index = await pineconeClient.index(indexName);
