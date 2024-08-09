@@ -42,7 +42,7 @@ function FileUploader() {
         }
       }
     },
-    [handleUpload]
+    [handleUpload, isOverFileLimit, filesLoading, toast]
   );
 
   const statusIcons: {
